@@ -51,8 +51,35 @@ def first_stable_character(s):
         >>> first_stable_character("a")
         None
     """
-    # TODO: Implement your solution here
-    pass
+    char_positions = {}
+    for i, char in enumerate(s):
+        if char not in char_positions:
+            char_positions[char] = []
+        char_positions[char].append(i)
+    
+    
+    for i, char in enumerate(s):
+        if char not in char_positions:
+            continue
+        positions = char_positions[char]
+        
+        
+        if len(positions) < 2:
+            del char_positions[char]
+            continue
+        
+        is_continuous = True
+        for j in range(len(positions) - 1):
+            if positions[j + 1] - positions[j] != 1:
+                is_continuous = False
+                break
+        
+        if is_continuous:
+            return char
+        
+        del char_positions[char]
+    
+    return None
 
 
 if __name__ == "__main__":
