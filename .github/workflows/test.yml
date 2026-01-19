@@ -1,0 +1,32 @@
+name: Test Solutions
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Run tests
+      run: |
+        python test_local.py
+
+    - name: Success
+      if: success()
+      run: echo "✅ All shown test cases passed! Good job!"
+
+    - name: Failure
+      if: failure()
+      run: echo "❌ Some tests failed. Check the logs above and fix your code."
